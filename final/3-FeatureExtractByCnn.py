@@ -1,11 +1,11 @@
-import numpy as np
 import os
-from tensorflow.keras.applications import VGG16
-from tensorflow.keras.preprocessing.image import img_to_array, load_img
-from tensorflow.keras.applications.vgg16 import preprocess_input
-from tensorflow.keras.models import Model
+import numpy as np
 import pandas as pd
-# Load the pre-trained VGG16 model + higher level layers
+from tensorflow.keras.models import Model
+from tensorflow.keras.applications import VGG16
+from tensorflow.keras.applications.vgg16 import preprocess_input
+from tensorflow.keras.preprocessing.image import img_to_array, load_img
+
 weights_path = r'C:\Users\Hanieh\source\final\vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5'
 base_model = VGG16(weights=weights_path, include_top=False)
 
@@ -14,24 +14,22 @@ image_folder = 'C:/Users/Hanieh/source/final/4-Fin-pics/'
 
 img_names = []
 features_list = []
-for img_name in os.listdir(image_folder):
 
+for img_name in os.listdir(image_folder):
     if img_name.endswith(".jpeg") or img_name.endswith(".png"):
+
         img_names.append(img_name)
         img_path = os.path.join(image_folder, img_name)
         
-        # Load image and resize it to 50x50
         img = load_img(img_path, target_size=(50, 50))
         img_array = img_to_array(img)
 
         img_array = np.expand_dims(img_array, axis=0) 
         img_array = preprocess_input(img_array)
         
-        # Extract features
         features = model.predict(img_array)
         features_list.append(features.flatten())
 
-# Convert list to numpy array for easier handling
 features_array = np.array(features_list)
 df = pd.DataFrame(features_list)
 

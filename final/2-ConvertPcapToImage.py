@@ -2,7 +2,6 @@ from scapy.all import rdpcap, wrpcap, Ether, IP
 import numpy as np
 from PIL import Image
 
-
 def pcap_to_image(pcap_files, image_file):
 
     data = b''

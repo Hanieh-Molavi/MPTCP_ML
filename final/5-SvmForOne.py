@@ -1,19 +1,18 @@
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-from sklearn.model_selection import train_test_split
-from sklearn.svm import SVC
-from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
-from sklearn.decomposition import PCA
-from timeit import default_timer as timer
-from datetime import timedelta
 import time
-import tracemalloc
 import statistics
+import numpy as np
+import tracemalloc
+import pandas as pd
+from sklearn.svm import SVC
+from datetime import timedelta
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+from mpl_toolkits.mplot3d import Axes3D
+from timeit import default_timer as timer
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
 
 def SVM(file,fileCounter):
-
     data = pd.read_csv(file)
 
     labels = data['target'].to_numpy()
@@ -57,74 +56,6 @@ def SVM(file,fileCounter):
     ax.scatter(predictions_reduced[:, 0], predictions_reduced[:, 1], predictions_reduced[:, 2], 
             c='red', marker='x', label='Predictions')
 
-    fig.colorbar(scatter, ax=ax, label='Cluster Label')
-    ax.legend()
-
-    ax.set_title('3D Visualization of Clusters and Predictions')
-    ax.set_xlabel('PCA Component 1')
-
-    ax.set_ylabel('PCA Component 2')
-    ax.set_zlabel('PCA Component 3')
-    #plt.show()
-    #plt.savefig(str(fileCounter) + '_svm')
-    labels_classes = [f'Class {i}' for i in range(len(TP))]  
-
-    bar_width = 0.2
-    x = np.arange(len(labels_classes))
-
-    #fig, ax = plt.subplots()
-    bar1 = ax.bar(x - bar_width * 1.5, TP, bar_width, label='True Positives (TP)')
-
-    bar2 = ax.bar(x - bar_width / 2, FP, bar_width, label='False Positives (FP)')
-    bar3 = ax.bar(x + bar_width / 2, FN, bar_width, label='False Negatives (FN)')
-
-    bar4 = ax.bar(x + bar_width * 1.5, TN, bar_width, label='True Negatives (TN)')
-    ax.set_xlabel('Classes')
-
-    ax.set_ylabel('Count')
-    ax.set_title('TP, FP, FN, TN for Each Class')
-
-    ax.set_xticks(x)
-    ax.set_xticklabels(labels_classes)
-
-    ax.legend()
-    # plt.savefig(str(fileCounter) + '_fscore')
-
-    return accuracy,f1,TP,TN,FP,FN
-
-def fitSvm(file,fileCounter):
-    data = pd.read_csv(file)
-
-    labels = data['target'].to_numpy()
-    features = data.drop('target', axis=1).to_numpy()
-
-    X_train, X_test, y_train, y_test = train_test_split(features, labels, test_size=0.2, random_state=42)
-
-    model = SVC(kernel='rbf', C=0.58, gamma='auto')  
-    model.fit(X_train, y_train)
-
-    y_train_pred = model.predict(X_train)
-    y_test_pred = model.predict(X_test)
-
-    train_accuracy = accuracy_score(y_train, y_train_pred)
-    test_accuracy = accuracy_score(y_test, y_test_pred)
-
-    print("Accuracy on Training Data:", train_accuracy)
-    print("Accuracy on Test Data:", test_accuracy)
-
-    epochs = [1, 2]
-    accuracies = [train_accuracy, test_accuracy]
-
-    # plt.plot(epochs, accuracies, marker='o', color='blue', label='Accuracy')
-    # plt.xticks(epochs, ['Train Accuracy', 'Test Accuracy'])
-    # plt.ylim(0, 1) 
-    # plt.title('Model Performance: Train vs Test')
-    # plt.ylabel('Accuracy')
-    # plt.xlabel('Data Type')
-    # plt.axhline(y=0.8, color='red', linestyle='--', label='Threshold (80%)')  
-    # plt.legend()
-    # plt.grid(True)
-    # plt.show()
 
     if train_accuracy > test_accuracy and (train_accuracy - test_accuracy) > 0.1:
         print("The model might be overfitting.")
@@ -132,8 +63,41 @@ def fitSvm(file,fileCounter):
         print("The model might be underfitting.")
     else:
         print("The model seems to have a good balance between train and test accuracy.")
+    # fig.colorbar(scatter, ax=ax, label='Cluster Label')
+    # ax.legend()
 
+    # ax.set_title('3D Visualization of Clusters and Predictions')
+    # ax.set_xlabel('PCA Component 1')
 
+    # ax.set_ylabel('PCA Component 2')
+    # ax.set_zlabel('PCA Component 3')
+
+    #plt.show()
+    #plt.savefig(str(fileCounter) + '_svm')
+
+    # labels_classes = [f'Class {i}' for i in range(len(TP))]  
+    # bar_width = 0.2
+
+    #x = np.arange(len(labels_classes))
+    #fig, ax = plt.subplots()
+
+    # bar1 = ax.bar(x - bar_width * 1.5, TP, bar_width, label='True Positives (TP)')
+    # bar2 = ax.bar(x - bar_width / 2, FP, bar_width, label='False Positives (FP)')
+
+    # bar3 = ax.bar(x + bar_width / 2, FN, bar_width, label='False Negatives (FN)')
+    # bar4 = ax.bar(x + bar_width * 1.5, TN, bar_width, label='True Negatives (TN)')
+
+    # ax.set_xlabel('Classes')
+    # ax.set_ylabel('Count')
+
+    # ax.set_title('TP, FP, FN, TN for Each Class')
+    # ax.set_xticks(x)
+
+    # ax.set_xticklabels(labels_classes)
+    # ax.legend()
+
+    # plt.savefig(str(fileCounter) + '_fscore')
+    return accuracy,f1,TP,TN,FP,FN
 
 def Cal_Time(file):
 
@@ -194,13 +158,13 @@ def Cal_CurrentTime(file):
 total_acc=[]
 for fileCounter in range(1,2):
 
-    #folderName = r'C:/Users/Hanieh/source/final/' + str(fileCounter) + '-mix-.csv'
-    acc,fs,tp,tn,fp,fn = SVM('C:/Users/Hanieh/source/final/Data/3-mix-.csv',fileCounter)
-    #fitSvm('C:/Users/Hanieh/source/final/Data/1-mix-.csv',fileCounter)
-    #total_acc.append(acc)
-    print('\n________________________________ Result:'+str(fileCounter)+' ____________________________________')
+    folderName = r'C:/Users/Hanieh/source/final/' + str(fileCounter) + '-mix-.csv'
+    acc,fs,tp,tn,fp,fn = SVM(folderName,fileCounter)
 
-    # print("\n==> accuracy:",acc)
+    total_acc.append(acc)
+    
+    print('\n________________________________ Result:'+str(fileCounter)+' ____________________________________')
+    print("\n==> accuracy:",acc)
 
     print("\n==> F-Score:",fs)
     print("\n==> TP:",tp)

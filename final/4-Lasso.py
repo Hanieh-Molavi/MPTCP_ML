@@ -3,10 +3,9 @@ from sklearn.linear_model import Lasso
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 
-import pandas as pd
-
 for j in range(1,5):
     name = str(j) + "-mix-.csv"
+    
     data = pd.read_csv("C:/Users/Hanieh/source/final/"+ name)
     X = data.drop(columns=['target'])  
 
