@@ -1,18 +1,17 @@
-from sklearn.svm import SVC
-import joblib
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-from sklearn.model_selection import train_test_split
-from sklearn.svm import SVC
-from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
-from sklearn.decomposition import PCA
-from timeit import default_timer as timer
-from datetime import timedelta
 import time
-import tracemalloc
+import joblib
 import statistics
+import numpy as np
+import tracemalloc
+import pandas as pd
+from sklearn.svm import SVC
+from datetime import timedelta
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+from mpl_toolkits.mplot3d import Axes3D
+from timeit import default_timer as timer
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
 
 folderName = r'C:/Users/Hanieh/source/final/data/4-mix-.csv'
 data = pd.read_csv(folderName)
