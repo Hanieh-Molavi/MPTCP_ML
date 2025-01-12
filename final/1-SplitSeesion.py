@@ -10,16 +10,16 @@ def extract_streams(pcap_file):
             packets[y]['IP'].src = "0.0.0.0"
             packets[y]['IP'].dst = "0.0.0.0"
 
-        if "TCP" in packets[y]:
-            z = y + 20
-            if packets[y]["TCP"].flags.value & 0x01:
-                wrpcap(f"C:/Users/Hanieh/source/final/Fin/" + str(z),packets[y])
+        if "MPTCP" in packets[y]["TCP"].options:
+            mptcp_options = packets[y]["TCP"].options["MPTCP"]
+            if mptcp_options.flags & 0x01:
+                wrpcap(f"C:/Users/Hanieh/source/final/Fin/" ,packets[y])
 
             else:
-                wrpcap(f"C:/Users/Hanieh/source/final/Else/" + str(z),packets[y] )
+                wrpcap(f"C:/Users/Hanieh/source/final/Else/" ,packets[y] )
 
 
-# for i in range(1,296):
-pcap_file = r"C:/Users/Hanieh/source/final/mptcp-.pcap"
+
+pcap_file = r"C:/Users/Hanieh/source/final/mptcp.pcap"
 streams = extract_streams(pcap_file)
 
