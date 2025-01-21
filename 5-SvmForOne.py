@@ -63,17 +63,17 @@ def SVM(file,fileCounter):
         print("The model might be underfitting.")
     else:
         print("The model seems to have a good balance between train and test accuracy.")
-    # fig.colorbar(scatter, ax=ax, label='Cluster Label')
-    # ax.legend()
+    fig.colorbar(scatter, ax=ax, label='Cluster Label')
+    ax.legend()
 
-    # ax.set_title('3D Visualization of Clusters and Predictions')
-    # ax.set_xlabel('PCA Component 1')
+    ax.set_title('3D Visualization of Clusters and Predictions')
+    ax.set_xlabel('PCA Component 1')
 
-    # ax.set_ylabel('PCA Component 2')
-    # ax.set_zlabel('PCA Component 3')
+    ax.set_ylabel('PCA Component 2')
+    ax.set_zlabel('PCA Component 3')
 
-    #plt.show()
-    #plt.savefig(str(fileCounter) + '_svm')
+    plt.show()
+    plt.savefig(str(fileCounter) + '_svm')
 
     # labels_classes = [f'Class {i}' for i in range(len(TP))]  
     # bar_width = 0.2
@@ -156,9 +156,9 @@ def Cal_CurrentTime(file):
     return result
 
 total_acc=[]
-for fileCounter in range(1,2):
+for fileCounter in range(2,3):
 
-    folderName = r'C:/Users/Hanieh/source/final/' + str(fileCounter) + '-mix-.csv'
+    folderName = r'Data/' + str(fileCounter) + '-mix-.csv'
     acc,fs,tp,tn,fp,fn = SVM(folderName,fileCounter)
 
     total_acc.append(acc)

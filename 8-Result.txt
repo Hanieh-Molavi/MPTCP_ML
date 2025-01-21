@@ -1,0 +1,11 @@
+1- sudo sysctl -w net.mptcp.enabled=1 : install mptcp
+
+2- ip route add [destination] via [next-hop] dev [interface] : iproute2
+
+3- ss -tM: see flows
+
+4- ping -I [interface] [destination]: ping
+
+5- iperf3 -c [destination IP] -B [source IP]: speed
+
+
