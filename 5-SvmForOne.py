@@ -20,7 +20,7 @@ def SVM(file,fileCounter):
 
     X_train, X_test, y_train, y_test = train_test_split(features, labels, test_size=0.2, random_state=42)
 
-    svm_classifier = SVC(kernel='rbf', C=0.51, gamma='auto')
+    svm_classifier = SVC(kernel='rbf', C=1, gamma='scale')
     svm_classifier.fit(X_train, y_train)
 
     predictions = svm_classifier.predict(X_test)
@@ -47,14 +47,15 @@ def SVM(file,fileCounter):
     pca = PCA(n_components=3)
 
     X_reduced = pca.fit_transform(features)
-    fig = plt.figure()
+    
+    #fig = plt.figure()
 
-    ax = fig.add_subplot(111, projection='3d')
-    scatter = ax.scatter(X_reduced[:, 0], X_reduced[:, 1], X_reduced[:, 2], c=labels, cmap='viridis', alpha=0.5)
+    # ax = fig.add_subplot(111, projection='3d')
+    # scatter = ax.scatter(X_reduced[:, 0], X_reduced[:, 1], X_reduced[:, 2], c=labels, cmap='viridis', alpha=0.5)
 
-    predictions_reduced = pca.transform(X_test)
-    ax.scatter(predictions_reduced[:, 0], predictions_reduced[:, 1], predictions_reduced[:, 2], 
-            c='red', marker='x', label='Predictions')
+    # predictions_reduced = pca.transform(X_test)
+    # ax.scatter(predictions_reduced[:, 0], predictions_reduced[:, 1], predictions_reduced[:, 2], 
+    #         c='red', marker='x', label='Predictions')
 
 
     if train_accuracy > test_accuracy and (train_accuracy - test_accuracy) > 0.1:
@@ -63,17 +64,17 @@ def SVM(file,fileCounter):
         print("The model might be underfitting.")
     else:
         print("The model seems to have a good balance between train and test accuracy.")
-    fig.colorbar(scatter, ax=ax, label='Cluster Label')
-    ax.legend()
+    # fig.colorbar(scatter, ax=ax, label='Cluster Label')
+    # ax.legend()
 
-    ax.set_title('3D Visualization of Clusters and Predictions')
-    ax.set_xlabel('PCA Component 1')
+    # ax.set_title('3D Visualization of Clusters and Predictions')
+    # ax.set_xlabel('PCA Component 1')
 
-    ax.set_ylabel('PCA Component 2')
-    ax.set_zlabel('PCA Component 3')
+    # ax.set_ylabel('PCA Component 2')
+    # ax.set_zlabel('PCA Component 3')
 
-    plt.show()
-    plt.savefig(str(fileCounter) + '_svm')
+    # plt.show()
+    # plt.savefig(str(fileCounter) + '_svm')
 
     # labels_classes = [f'Class {i}' for i in range(len(TP))]  
     # bar_width = 0.2
@@ -155,13 +156,10 @@ def Cal_CurrentTime(file):
     
     return result
 
-total_acc=[]
-for fileCounter in range(2,3):
+for fileCounter in range(1,5):
 
     folderName = r'Data/' + str(fileCounter) + '-mix-.csv'
     acc,fs,tp,tn,fp,fn = SVM(folderName,fileCounter)
-
-    total_acc.append(acc)
     
     print('\n________________________________ Result:'+str(fileCounter)+' ____________________________________')
     print("\n==> accuracy:",acc)
